@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.secops</groupId>
+    <artifactId>next-gen-soc</artifactId>
+    <version>${revision}</version>
+    <modules>
+        <module>secops-dependencies-manager</module>
+        <module>secops-common-dependencies-manager</module>
+        <module>secops-starter-parent</module>
+        <module>secops-tasks-service</module>
+        <module>secops-configuration-service</module>
+    </modules>
+    <properties>
+        <revision>0.0.1-SNAPSHOT</revision>
+    </properties>
+    <packaging>pom</packaging>
+
+</project>

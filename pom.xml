@@ -9,8 +9,8 @@
         <module>secops-dependencies-manager</module>
         <module>secops-common-dependencies-manager</module>
         <module>secops-starter-parent</module>
-        <module>secops-tasks-service</module>
         <module>secops-configuration-service</module>
+        <module>secops-tasks-service</module>
     </modules>
     <properties>
         <revision>0.0.1-SNAPSHOT</revision>

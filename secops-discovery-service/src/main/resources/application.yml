@@ -1,0 +1,17 @@
+server:
+    port: 8761
+---
+
+eureka:
+    server:
+        waitTimeInMsWhenSyncEmpty: 0
+    client:
+        register-with-eureka: false
+        fetch-registry: false
+    instance:
+        lease-renewal-interval-in-seconds: 5
+---
+
+logging.level:
+    com.netflix.eureka: 'OFF'
+    com.netflix.discovery: 'OFF'

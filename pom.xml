@@ -9,7 +9,9 @@
         <module>secops-dependencies-manager</module>
         <module>secops-common-dependencies-manager</module>
         <module>secops-starter-parent</module>
+        <module>secops-common-utilities</module>
         <module>secops-configuration-service</module>
+        <module>secops-discovery-service</module>
         <module>secops-tasks-service</module>
         <module>secops-ui</module>
     </modules>

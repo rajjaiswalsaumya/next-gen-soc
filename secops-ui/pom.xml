@@ -16,87 +16,112 @@
     <frontend-maven-plugin.version>1.6</frontend-maven-plugin.version>
     <frontend-maven-plugin.nodeVersion>v9.9.0</frontend-maven-plugin.nodeVersion>
     <frontend-maven-plugin.npmVersion>6.9.0</frontend-maven-plugin.npmVersion>
+    <build-ui>false</build-ui>
   </properties>
 
-  <build>
-    <resources>
-      <resource>
-        <directory>ui-src</directory>
-      </resource>
-    </resources>
-    <plugins>
-      <plugin>
-        <artifactId>maven-clean-plugin</artifactId>
-        <executions>
-          <execution>
-            <id>clean-ui-dist-all</id>
-            <phase>initialize</phase>
-            <goals>
-              <goal>clean</goal>
-            </goals>
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-test</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>*</groupId>
+          <artifactId>*</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+  </dependencies>
+
+  <profiles>
+    <profile>
+      <id>build-ui</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <property>
+          <name>build-ui</name>
+        </property>
+      </activation>
+      <build>
+        <resources>
+          <resource>
+            <directory>ui-src</directory>
+          </resource>
+        </resources>
+        <plugins>
+          <plugin>
+            <artifactId>maven-clean-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>clean-ui-dist-all</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>clean</goal>
+                </goals>
+                <configuration>
+                  <filesets>
+                    <fileset>
+                      <directory>${project.basedir}</directory>
+                      <includes>
+                        <include>**/node/**</include>
+                        <include>**/ui-src/**</include>
+                        <include>**/dist/**</include>
+                        <include>**/target/**</include>
+                        <include>**/node_modules/**</include>
+                        <include>**/**.lock</include>
+                      </includes>
+                      <followSymlinks>false</followSymlinks>
+                    </fileset>
+                  </filesets>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <version>${frontend-maven-plugin.version}</version>
             <configuration>
-              <filesets>
-                <fileset>
-                  <directory>${project.basedir}</directory>
-                  <includes>
-                    <include>**/node/**</include>
-                    <include>**/ui-src/**</include>
-                    <include>**/dist/**</include>
-                    <include>**/target/**</include>
-                    <include>**/node_modules/**</include>
-                    <include>**/**.lock</include>
-                  </includes>
-                  <followSymlinks>false</followSymlinks>
-                </fileset>
-              </filesets>
+              <nodeVersion>${frontend-maven-plugin.nodeVersion}</nodeVersion>
+              <npmVersion>${frontend-maven-plugin.npmVersion}</npmVersion>
             </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>com.github.eirslett</groupId>
-        <artifactId>frontend-maven-plugin</artifactId>
-        <version>${frontend-maven-plugin.version}</version>
-        <configuration>
-          <nodeVersion>${frontend-maven-plugin.nodeVersion}</nodeVersion>
-          <npmVersion>${frontend-maven-plugin.npmVersion}</npmVersion>
-        </configuration>
-        <executions>
-          <execution>
-            <id>install node and npm</id>
-            <goals>
-              <goal>install-node-and-npm</goal>
-            </goals>
-            <phase>generate-resources</phase>
-          </execution>
-          <execution>
-            <id>npm install</id>
-            <goals>
-              <goal>npm</goal>
-            </goals>
+            <executions>
+              <execution>
+                <id>install node and npm</id>
+                <goals>
+                  <goal>install-node-and-npm</goal>
+                </goals>
+                <phase>generate-resources</phase>
+              </execution>
+              <execution>
+                <id>npm install</id>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <configuration>
+                  <arguments>install</arguments>
+                </configuration>
+              </execution>
+              <execution>
+                <id>npm run-script buildProd</id>
+                <phase>generate-resources</phase>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <configuration>
+                  <arguments>run buildProd</arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
             <configuration>
-              <arguments>install</arguments>
+              <layout>NONE</layout>
             </configuration>
-          </execution>
-          <execution>
-            <id>npm run-script buildProd</id>
-            <phase>generate-resources</phase>
-            <goals>
-              <goal>npm</goal>
-            </goals>
-            <configuration>
-              <arguments>run buildProd</arguments>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <configuration>
-          <layout>NONE</layout>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>

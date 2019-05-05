@@ -23,12 +23,13 @@ jobs:
             - restore_cache:
                   keys:
                       - v1-dependencies-{{ checksum "pom.xml" }}
+                      - node-dependency-cache-{{ checksum "node_modules" }}
                       # fallback to using the latest cache if no exact match is found
                       - v1-dependencies-
 
             - run: mvn dependency:go-offline
 
-            - run: mvn clean install -Dbuild-ui spring-boot:repackage
+            - run: mvn clean install -Dclean-all-ui=true -Dinstall-ui-pluguns=true -Dbuild-ui=true spring-boot:repackage
 
             - save_cache:
                   paths:

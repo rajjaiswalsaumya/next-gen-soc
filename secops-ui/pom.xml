@@ -31,14 +31,62 @@
       </exclusions>
     </dependency>
   </dependencies>
-
+  <!--
+    Profiles :
+      clean-ui : It is to be used to clean all ui components
+      install-ui-plugins: It is to be used to install node and npm
+      build-ui: It is to be used to build ui jars
+  -->
   <profiles>
     <profile>
-      <id>build-ui</id>
+      <id>clean-ui</id>
       <activation>
         <activeByDefault>false</activeByDefault>
         <property>
-          <name>build-ui</name>
+          <name>clean-ui</name>
+        </property>
+      </activation>
+      <build>
+        <resources>
+          <resource>
+            <directory>ui-src</directory>
+          </resource>
+        </resources>
+        <plugins>
+          <plugin>
+            <artifactId>maven-clean-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>clean-ui-dist-all</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>clean</goal>
+                </goals>
+                <configuration>
+                  <filesets>
+                    <fileset>
+                      <directory>${project.basedir}</directory>
+                      <includes>
+                        <include>**/ui-src/**</include>
+                        <include>**/dist/**</include>
+                        <include>**/target/**</include>
+                      </includes>
+                      <followSymlinks>false</followSymlinks>
+                    </fileset>
+                  </filesets>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>clean-all-ui</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <property>
+          <name>clean-all-ui</name>
         </property>
       </activation>
       <build>
@@ -76,6 +124,69 @@
               </execution>
             </executions>
           </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>install-ui-plugins</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <property>
+          <name>install-ui-plugins</name>
+        </property>
+      </activation>
+      <build>
+        <resources>
+          <resource>
+            <directory>ui-src</directory>
+          </resource>
+        </resources>
+        <plugins>
+          <plugin>
+            <groupId>com.github.eirslett</groupId>
+            <artifactId>frontend-maven-plugin</artifactId>
+            <version>${frontend-maven-plugin.version}</version>
+            <configuration>
+              <nodeVersion>${frontend-maven-plugin.nodeVersion}</nodeVersion>
+              <npmVersion>${frontend-maven-plugin.npmVersion}</npmVersion>
+            </configuration>
+            <executions>
+              <execution>
+                <id>install node and npm</id>
+                <goals>
+                  <goal>install-node-and-npm</goal>
+                </goals>
+                <phase>generate-resources</phase>
+              </execution>
+              <execution>
+                <id>npm install</id>
+                <goals>
+                  <goal>npm</goal>
+                </goals>
+                <configuration>
+                  <arguments>install</arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>build-ui</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+        <property>
+          <name>build-ui</name>
+        </property>
+      </activation>
+      <build>
+        <resources>
+          <resource>
+            <directory>ui-src</directory>
+          </resource>
+        </resources>
+        <plugins>
           <plugin>
             <groupId>com.github.eirslett</groupId>
             <artifactId>frontend-maven-plugin</artifactId>

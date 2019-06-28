@@ -3,8 +3,8 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>next-gen-soc</artifactId>
         <groupId>com.secops</groupId>
+        <artifactId>next-gen-soc</artifactId>
         <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -20,13 +20,6 @@
         <start-class/>
         <spring-boot.version>2.1.4.RELEASE</spring-boot.version>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-        </dependency>
-    </dependencies>
 
     <dependencyManagement>
         <dependencies>
@@ -109,6 +102,11 @@
                     <configuration>
                         <classesDirectory>${project.build.outputDirectory}</classesDirectory>
                     </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>${maven-clean-plugin.version}</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -219,21 +217,21 @@
                             <configuration>
                                 <transformers>
                                     <transformer
-                                            implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                         <resource>META-INF/spring.handlers</resource>
                                     </transformer>
                                     <transformer
-                                            implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
+                                        implementation="org.springframework.boot.maven.PropertiesMergingResourceTransformer">
                                         <resource>META-INF/spring.factories</resource>
                                     </transformer>
                                     <transformer
-                                            implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
+                                        implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
                                         <resource>META-INF/spring.schemas</resource>
                                     </transformer>
                                     <transformer
-                                            implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
+                                        implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer"/>
                                     <transformer
-                                            implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                         <mainClass>${start-class}</mainClass>
                                     </transformer>
                                 </transformers>
@@ -298,6 +296,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>flatten-maven-plugin</artifactId>
+                <version>${flatten-maven-plugin.version}</version>
                 <inherited>false</inherited>
                 <executions>
                     <execution>
@@ -333,6 +332,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>xml-maven-plugin</artifactId>
+                <version>${xml-maven-plugin.version}</version>
                 <inherited>false</inherited>
                 <executions>
                     <execution>
